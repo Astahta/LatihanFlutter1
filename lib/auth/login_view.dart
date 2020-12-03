@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:latihan_dkk1/menu/menu_view.dart';
 import '../constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -119,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return new GestureDetector(
         onTap: (){
-          //login();
+          login();
         },
         child:
         Container(
@@ -147,5 +150,16 @@ class _LoginPageState extends State<LoginPage> {
             )
         )
     );
+  }
+
+  login() async {
+    Fluttertoast.showToast(msg: "BERHASIL", toastLength: Toast.LENGTH_SHORT);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', emailController.text);
+    await prefs.setString('password', passwordController.text);
+    print(prefs.getString("username"));
+    Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) {
+         return new MenuPage();
+       }));
   }
 }
